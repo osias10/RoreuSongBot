@@ -1,0 +1,27 @@
+{
+  "name": "reruesongbot",
+  "version": "0.0.1",
+  "description": "dicosrd music bot",
+  "main": "./src/rorueSong.js",
+  "scripts": {
+    "start": "node ./src/rorueSong.js",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/osias10/RoreuSongBot.git"
+  },
+  "author": "Osias10",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/osias10/RoreuSongBot/issues"
+  },
+  "homepage": "https://github.com/osias10/RoreuSongBot#readme",
+  "dependencies": {
+    "@discordjs/opus": "^0.6.0",
+    "@discordjs/voice": "^0.6.0",
+    "discord.js": "^13.1.0",
+    "libsodium-wrappers": "^0.7.9",
+    "ytdl-core": "^4.9.1"
+  }
+}
