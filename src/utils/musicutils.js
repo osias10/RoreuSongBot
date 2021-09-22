@@ -9,11 +9,24 @@ async function music(msg){
     const command = msg.content.trim().substring(1);
     const commandList = command.trim().split(/ +/);
 
+    const voiceChannel =  msg.member.voice.channel;
+    if(!voiceChannel){
+        return msg.channel.send("실행하려면 음성채널에 들어가 주세용");
+    }
+
+    const permissions = voiceChannel.permissionsFor(msg.client.user);
+    if (!permissions.has("CONNECT") || !permissions.has("SPEAK")) {
+        return msg.channel.send("Speak 권한과 voice channel 입장 권한이 필요해요!");
+    }
+
     const connection = joinVoiceChannel({
         channelId: msg.member.voice.channel.id,
         guildId: msg.guild.id,
         adapterCreator: msg.guild.voiceAdapterCreator,
     });
+
+    
+
 
     console.log("커맨드0");
     console.log(commandList[0]);
