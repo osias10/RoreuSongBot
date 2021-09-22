@@ -3,6 +3,8 @@ const { joinVoiceChannel,
   createAudioPlayer,
   createAudioResource 
 } = require('@discordjs/voice');
+const yts = require("yt-search");
+
 
 async function music(msg){
     
@@ -34,7 +36,7 @@ async function music(msg){
     console.log(commandList[1]);
     if (commandList[0].startsWith('p')){
         try{
-            play(commandList[1],connection);
+            play(msg,commandList[1],connection);
         } catch (e) {
             console.log(e);
         }
@@ -56,11 +58,25 @@ async function play12() {
     connection.subscribe(player);
 }
 
-async function play(arg,connection){
+async function play(msg,arg,connection){
 
+    if (ytdl.validateURL(arg)) {
+        const songInfo = await ytdl.getInfo(arg);
+        song = {
+          title: songInfo.title,
+          url: songInfo.video_url
+        };
+      } else {
+        //const {videos} = await yts(arg.slice(1).join(" "));
+        const {videos} = await yts(arg);
+        if (!videos.length) return msg.channel.send("No songs were found!");
+        song = {
+          title: videos[0].title,
+          url: videos[0].url
+        };
+      }
     
-    
-    const stream = ytdl(arg, {
+    const stream = ytdl(song.url, {
         filter: "audioonly"
     });
     try{
