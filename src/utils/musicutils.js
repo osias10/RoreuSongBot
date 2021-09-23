@@ -1,4 +1,6 @@
 const ytdl = require("ytdl-core");
+const ytdlexec = require('youtube-dl-exec').raw
+
 const { joinVoiceChannel,
   createAudioPlayer,
   createAudioResource 
@@ -75,13 +77,28 @@ async function play(msg,arg,connection){
           url: videos[0].url
         };
       }
-    
+    /*
     const stream = ytdl(song.url, {
         filter: "audioonly"
     });
+    */
+    console.log("song_url");
+    console.log(song.url);
+    const stream = ytdlexec(song.url, {
+        o: '-',
+        q: '',
+        f: 'bestaudio[ext=webm+acodec=opus+asr=48000]/bestaudio',
+        r: '100K',
+      }, { stdio: ['ignore', 'pipe', 'ignore'] })
+    
+    
+    //console.log("stream");
+    //console.log(stream);
     try{
         const player = createAudioPlayer();
-        const resource = createAudioResource(stream);
+        //const resource = createAudioResource(stream);
+        const resource = createAudioResource(stream.stdout);
+
         await player.play(resource);
         connection.subscribe(player);
     }catch (e){
