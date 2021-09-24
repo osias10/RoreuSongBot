@@ -36,15 +36,13 @@ async function music(msg){
     console.log(commandList[0]);
     console.log("커맨드1");
     console.log(commandList[1]);
-    if (commandList[0].startsWith('p')){
-        try{
-            play(msg,commandList[1],connection);
-        } catch (e) {
-            console.log(e);
-        }
-    }else if (msg.content.startsWith(`${prefix}skip`)) {
+    if (commandList[0].startsWith('play')){
         
-        return;
+            play(msg,commandList[1],connection);
+        
+    }else if (commandList[0].startsWith(`pq`)) {
+        playtest(msg,connection);
+        
     } else if (message.content.startsWith(`${prefix}stop`)) {
         
         return;
@@ -91,7 +89,11 @@ async function play(msg,arg,connection){
         r: '100K',
       }, { stdio: ['ignore', 'pipe', 'ignore'] })
     
-    
+    if (!stream.stdout){
+        console.log("not stdout");
+        return;
+    }
+    console.log(stream.stdout);
     //console.log("stream");
     //console.log(stream);
     try{
@@ -105,6 +107,26 @@ async function play(msg,arg,connection){
         console.log(e);
     }
     
+}
+async function playtest(msg,connection){
+    console.log("mp3 재생");
+    
+    
+    //console.log("stream");
+    //console.log(stream);
+    try{
+        const player = createAudioPlayer();
+        const resource = createAudioResource("./test/akmu.mp3", { inlineVolume: true});
+        resource.volume.setVolume(0.5);
+        //const resource = createAudioResource(stream.stdout);
+
+        player.play(resource);
+        //await entersState(connection, VoiceConnectionStatus.Ready, 30_000);
+        connection.subscribe(player);
+
+    }catch (e){
+        console.log(e);
+    }
 }
 
 module.exports= {
