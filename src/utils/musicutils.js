@@ -36,17 +36,20 @@ async function music(msg){
     console.log(commandList[0]);
     console.log("커맨드1");
     console.log(commandList[1]);
-    if (commandList[0].startsWith('play')){
+    if (commandList[0].startsWith('pla2')){
         
             play(msg,commandList[1],connection);
         
     }else if (commandList[0].startsWith(`pq`)) {
         playtest(msg,connection);
         
-    } else if (message.content.startsWith(`${prefix}stop`)) {
-        
+    } else if (commandList[0].startsWith(`play`)) {
+        play2(msg, commandList[1], connection);
         return;
-    } else {
+    } else if (commandList[0].startsWith(`pla3`)) {
+        play2(msg, commandList[1], connection);
+        return;
+    }else {
         msg.channel.send("You need to enter a valid command!");
     }
 
@@ -82,18 +85,20 @@ async function play(msg,arg,connection){
     */
     console.log("song_url");
     console.log(song.url);
-    const stream = ytdlexec(song.url, {
+    const stream =  ytdlexec(song.url, {
         o: '-',
         q: '',
         f: 'bestaudio[ext=webm+acodec=opus+asr=48000]/bestaudio',
         r: '100K',
       }, { stdio: ['ignore', 'pipe', 'ignore'] })
+      //, { stdio: ['ignore', 'pipe', 'ignore'] })
+      
     
     if (!stream.stdout){
         console.log("not stdout");
         return;
     }
-    console.log(stream.stdout);
+    //console.log(stream.stdout);
     //console.log("stream");
     //console.log(stream);
     try{
@@ -108,6 +113,56 @@ async function play(msg,arg,connection){
     }
     
 }
+
+async function play2(msg,arg,connection){
+
+    if (ytdl.validateURL(arg)) {
+        const songInfo = await ytdl.getInfo(arg);
+        song = {
+          title: songInfo.title,
+          url: songInfo.video_url
+        };
+      } else {
+        //const {videos} = await yts(arg.slice(1).join(" "));
+        const {videos} = await yts(arg);
+        if (!videos.length) return msg.channel.send("No songs were found!");
+        song = {
+          title: videos[0].title,
+          url: videos[0].url
+        };
+      }
+    
+    const stream = ytdl(song.url, {
+        quality : 'lowestaudio' , 
+        filter: "audioonly"
+        
+    });
+    
+    console.log("song_url");
+    console.log(song.url);
+   
+    
+    if (!stream){
+        console.log("not stdout");
+        return;
+    }
+    console.log(stream);
+    //console.log("stream");
+    //console.log(stream);
+    try{
+        const player = createAudioPlayer();
+        //const resource = createAudioResource(stream);
+        const resource = createAudioResource(stream);
+
+        await player.play(resource);
+        connection.subscribe(player);
+    }catch (e){
+        console.log(e);
+    }
+    
+}
+
+
 async function playtest(msg,connection){
     console.log("mp3 재생");
     
