@@ -10,8 +10,10 @@ const yts = require("yt-search");
 
 const queue = new Map();
 
+
 async function music(msg){
     
+  const serverQueue = queue.get(message.guild.id);
     
     const command = msg.content.trim().substring(1);
     const commandList = command.trim().split(/ +/);
@@ -269,6 +271,19 @@ async function play5(msg){
       }
       */
 }
+
+
+
+async function execute(){
+  
+}
+
+
+
+
+
+
+
 
 module.exports= {
     music
