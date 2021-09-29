@@ -55,11 +55,11 @@ async function music(msg){
       playtest(msg,connection);
         
     } else if (commandList[0].startsWith(`play`)) {
-      //play3(msg,song_name);
-      execute(msg,song_name,serverQueue);
+      play3(msg,song_name);
+      //execute(msg,song_name,serverQueue);
       return;
-    } else if (commandList[0].startsWith(`pla3`)) {
-        play2(msg, commandList[1], connection);
+    } else if (commandList[0].startsWith(`qplay`)) {
+        execute(msg,song_name,serverQueue);
         return;
     }else if (commandList[0].startsWith('pla4')){
     
@@ -276,7 +276,7 @@ async function play5(msg){
 
 
 async function execute(){
-
+  let voiceChannel =  msg.member.voice.channel;
   if(!voiceChannel){
         return msg.channel.send("실행하려면 음성채널에 들어가 주세용");
     }
@@ -312,7 +312,7 @@ async function execute(){
     if(!serverQueue){
                 const queueConstructor = {
                     txtChannel: message.channel,
-                    vChannel: vc,
+                    vChannel: voiceChannel,
                     connection: null,
                     songs: [],
                     volume: 10,
@@ -331,15 +331,15 @@ async function execute(){
                     queueConstructor.connection = connection;
 
                     
-                    play(message.guild, queueConstructor.songs[0]);
+                    qplay(msg.guild, queueConstructor.songs[0]);
                 }catch (err){
                     console.error(err);
-                    queue.delete(message.guild.id);
-                    return message.channel.send(`Unable to join the voice chat ${err}`)
+                    queue.delete(msg.guild.id);
+                    return msg.channel.send(`Unable to join the voice chat ${err}`)
                 }
             }else{
                 serverQueue.songs.push(song);
-                return message.channel.send(`The song has been added ${song.url}`);
+                return msg.channel.send(`The song has been added ${song.url}`);
             }
 
   
@@ -347,6 +347,18 @@ async function execute(){
 
 
 
+function qplay(guild, song){
+
+  const serverQueue = queue.get(guild.id);
+  if(!song){
+    serverQueue.connection.destroy();
+    queue.delete(guild.id);
+    return;
+  }
+  serverQueue.connection
+  
+  
+}
 
 
 
