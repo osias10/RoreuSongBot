@@ -13,7 +13,7 @@ const queue = new Map();
 
 async function music(msg){
     
-  const serverQueue = queue.get(message.guild.id);
+  const serverQueue = queue.get(msg.guild.id);
     
     const command = msg.content.trim().substring(1);
     const commandList = command.trim().split(/ +/);
@@ -55,7 +55,8 @@ async function music(msg){
       playtest(msg,connection);
         
     } else if (commandList[0].startsWith(`play`)) {
-      play3(msg,song_name);
+      //play3(msg,song_name);
+      execute(msg,song_name,serverQueue);
       return;
     } else if (commandList[0].startsWith(`pla3`)) {
         play2(msg, commandList[1], connection);
@@ -275,6 +276,72 @@ async function play5(msg){
 
 
 async function execute(){
+
+  if(!voiceChannel){
+        return msg.channel.send("실행하려면 음성채널에 들어가 주세용");
+    }
+
+    const permissions = voiceChannel.permissionsFor(msg.client.user);
+    if (!permissions.has("CONNECT") || !permissions.has("SPEAK")) {
+        return msg.channel.send("Speak 권한과 voice channel 입장 권한이 필요해요!");
+    }
+    const command = msg.content.trim().substring(1);
+    const commandList = command.trim().split(/ +/);
+
+    if (commandList[1] == undefined){
+      msg.channel.send("노래를 입력해주세요");
+      return;
+    }
+
+    if (ytdl.validateURL(arg)) {
+      const songInfo = await ytdl.getInfo(arg);
+      song = {
+        title: songInfo.title,
+        url: songInfo.video_url
+      };
+    } else {
+      //const {videos} = await yts(arg.slice(1).join(" "));
+      const {videos} = await yts(arg);
+      if (!videos.length) return msg.channel.send("No songs were found!");
+      song = {
+        title: videos[0].title,
+        url: videos[0].url
+      };
+    }
+
+    if(!serverQueue){
+                const queueConstructor = {
+                    txtChannel: message.channel,
+                    vChannel: vc,
+                    connection: null,
+                    songs: [],
+                    volume: 10,
+                    playing: true
+                };
+                queue.set(msg.guild.id, queueConstructor);
+ 
+                queueConstructor.songs.push(song);
+ 
+                try{
+                    let connection = await joinVoiceChannel({
+                      channelId: msg.member.voice.channel.id,
+                        guildId: msg.guild.id,
+                        adapterCreator: msg.guild.voiceAdapterCreator
+                    });
+                    queueConstructor.connection = connection;
+
+                    
+                    play(message.guild, queueConstructor.songs[0]);
+                }catch (err){
+                    console.error(err);
+                    queue.delete(message.guild.id);
+                    return message.channel.send(`Unable to join the voice chat ${err}`)
+                }
+            }else{
+                serverQueue.songs.push(song);
+                return message.channel.send(`The song has been added ${song.url}`);
+            }
+
   
 }
 
