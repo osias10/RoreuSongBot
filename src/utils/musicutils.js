@@ -3,7 +3,8 @@ const ytdlexec = require('youtube-dl-exec').raw
 
 const { joinVoiceChannel,
   createAudioPlayer,
-  createAudioResource 
+  createAudioResource, 
+  AudioPlayerStatus
 } = require('@discordjs/voice');
 const yts = require("yt-search");
 
@@ -275,7 +276,7 @@ async function play5(msg){
 
 
 
-async function execute(){
+async function execute(msg,song_name,serverQueue){
   let voiceChannel =  msg.member.voice.channel;
   if(!voiceChannel){
         return msg.channel.send("실행하려면 음성채널에 들어가 주세용");
@@ -311,7 +312,7 @@ async function execute(){
 
     if(!serverQueue){
                 const queueConstructor = {
-                    txtChannel: message.channel,
+                    txtChannel: msg.channel,
                     vChannel: voiceChannel,
                     connection: null,
                     songs: [],
@@ -355,11 +356,40 @@ function qplay(guild, song){
     queue.delete(guild.id);
     return;
   }
-  serverQueue.connection
+  const stream = ytdlexec(song.url, {
+    o: '-',
+    q: '',
+    f: 'bestaudio[ext=webm+acodec=opus+asr=48000]/bestaudio',
+    r: '100K',
+  }, { stdio: ['ignore', 'pipe', 'ignore'] })
   
+  const player = createAudioPlayer();
+  const resource = createAudioResource(stream.stdout);
+  player.play(resource);
+  serverQueue.connection.subscribe(player);
   
+  player.on('error', error => {
+    console.error(error);
+  });
+
+  player.on(AudioPlayerStatus.Idle, () => {
+    serverQueue.songs.shift();
+
+    player.play(guild, serverQueue.songs[0]);
+  })
+
+  serverQueue.txtChannel.send(`Now Playing ${serverQueue.song[0].url}`);
+
 }
 
+function stop ( msg,serverQueue){
+  if(!msg.member.voice.channel){
+    return msg.channel.send("음성채널에 들어가주세요!");
+  }
+  serverQueue.songs = [];
+  serverQueue.connection.destroy();
+
+}
 
 
 
