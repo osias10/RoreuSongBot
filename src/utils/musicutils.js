@@ -56,26 +56,14 @@ async function music(msg){
         
       tplay(msg,commandList[1],connection);
         
-    }else if (commandList[0].startsWith(`ppp`)) {
-      playtest(msg,connection);
-        
     } else if (commandList[0].startsWith(`play`)) {
-      play3(msg,song_name);
-      //execute(msg,song_name,serverQueue);
-      return;
-    } else if (commandList[0].startsWith(`pq`)) {
         execute(msg,song_name,serverQueue);
         return;
     }else if (commandList[0].startsWith('skip')){
       skip(msg,serverQueue);
 
-    }else if (commandList[0].startsWith('pla4')){
-    
-        play3(msg,commandList[1]);
-    
-    }else if (commandList[0].startsWith('pla5')){
-    
-        play5(msg);
+    }else if (commandList[0].startsWith('stop')){
+      stop(msg,serverQueue);
     
     }else {
         msg.channel.send("You need to enter a valid command!");
