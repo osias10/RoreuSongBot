@@ -4,7 +4,11 @@ const ytdlexec = require('youtube-dl-exec').raw
 const { joinVoiceChannel,
   createAudioPlayer,
   createAudioResource, 
-  AudioPlayerStatus
+  AudioPlayerStatus,
+  AudioPlayer,
+  AudioPlayerError,
+  VoiceConnection,
+  VoiceConnectionStatus
 } = require('@discordjs/voice');
 const yts = require("yt-search");
 
@@ -44,24 +48,27 @@ async function music(msg){
     console.log(commandList[1]);
     let song_name = String(commandList.slice(1,undefined));
     console.log(song_name);
-    if (commandList[1] == undefined){
+    if (commandList[0]=='qplay' && commandList[1] == undefined){
       msg.channel.send("노래를 입력해주세요");
       return;
     }
     if (commandList[0].startsWith('pla2')){
         
-      play(msg,commandList[1],connection);
+      tplay(msg,commandList[1],connection);
         
-    }else if (commandList[0].startsWith(`pq`)) {
+    }else if (commandList[0].startsWith(`ppp`)) {
       playtest(msg,connection);
         
     } else if (commandList[0].startsWith(`play`)) {
       play3(msg,song_name);
       //execute(msg,song_name,serverQueue);
       return;
-    } else if (commandList[0].startsWith(`qplay`)) {
+    } else if (commandList[0].startsWith(`pq`)) {
         execute(msg,song_name,serverQueue);
         return;
+    }else if (commandList[0].startsWith('skip')){
+      skip(msg,serverQueue);
+
     }else if (commandList[0].startsWith('pla4')){
     
         play3(msg,commandList[1]);
@@ -82,7 +89,7 @@ async function play12() {
     connection.subscribe(player);
 }
 
-async function play(msg,arg,connection){
+async function tplay(msg,arg,connection){
 
     if (ytdl.validateURL(arg)) {
         const songInfo = await ytdl.getInfo(arg);
@@ -294,21 +301,22 @@ async function execute(msg,song_name,serverQueue){
       return;
     }
 
-    if (ytdl.validateURL(arg)) {
-      const songInfo = await ytdl.getInfo(arg);
+    if (ytdl.validateURL(song_name)) {
+      const songInfo = await ytdl.getInfo(song_name);
       song = {
         title: songInfo.title,
         url: songInfo.video_url
       };
     } else {
       //const {videos} = await yts(arg.slice(1).join(" "));
-      const {videos} = await yts(arg);
+      const {videos} = await yts(song_name);
       if (!videos.length) return msg.channel.send("No songs were found!");
       song = {
         title: videos[0].title,
         url: videos[0].url
       };
     }
+    const player = createAudioPlayer();
 
     if(!serverQueue){
                 const queueConstructor = {
@@ -317,7 +325,9 @@ async function execute(msg,song_name,serverQueue){
                     connection: null,
                     songs: [],
                     volume: 10,
-                    playing: true
+                    playing: true,
+                    player: player
+                    
                 };
                 queue.set(msg.guild.id, queueConstructor);
  
@@ -331,7 +341,7 @@ async function execute(msg,song_name,serverQueue){
                     });
                     queueConstructor.connection = connection;
 
-                    
+                    console.log(queueConstructor);
                     qplay(msg.guild, queueConstructor.songs[0]);
                 }catch (err){
                     console.error(err);
@@ -363,22 +373,34 @@ function qplay(guild, song){
     r: '100K',
   }, { stdio: ['ignore', 'pipe', 'ignore'] })
   
-  const player = createAudioPlayer();
+  //const player = createAudioPlayer();
   const resource = createAudioResource(stream.stdout);
+  const player = serverQueue.player;
   player.play(resource);
   serverQueue.connection.subscribe(player);
   
   player.on('error', error => {
     console.error(error);
   });
-
-  player.on(AudioPlayerStatus.Idle, () => {
+  /*
+  serverQueue.connection.on('finish', () => {
+    console.log("곡 shift");
     serverQueue.songs.shift();
 
     player.play(guild, serverQueue.songs[0]);
   })
+*/
+  player.once(AudioPlayerStatus.Idle, () => {
+    console.log("곡 shift");
+    serverQueue.songs.shift();
 
-  serverQueue.txtChannel.send(`Now Playing ${serverQueue.song[0].url}`);
+    qplay(guild, serverQueue.songs[0]);
+  });
+  
+
+
+
+  serverQueue.txtChannel.send(`Now Playing ${serverQueue.songs[0].url}`);
 
 }
 
@@ -391,6 +413,17 @@ function stop ( msg,serverQueue){
 
 }
 
+function skip(msg, serverQueue){
+  if (!msg.member.voice.channel){
+    return msg.channel.send("음성채널에 들어가주세요!");
+
+  }
+  if (!serverQueue){
+    return msg.channel.send("넘어갈 곡이 없습니다.");
+  }
+  serverQueue.player.stop();
+  //serverQueue.connection.dispatcher.end();
+}
 
 
 

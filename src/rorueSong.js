@@ -27,7 +27,7 @@ client.on('message', async msg =>{
         return;
     }
     const command = content.trim().substring(1);
-    if (command.startsWith('p')){
+    if (command.startsWith('p')||command.startsWith('skip')){
         musicutils.music(msg);
     }
 
