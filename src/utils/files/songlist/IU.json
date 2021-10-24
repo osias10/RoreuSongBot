@@ -1,0 +1,279 @@
+[
+    {
+        "Title": "아이유 노래맞추기",
+        "Description" : "로르봇의 아이유 노래 맞추기 입니다. 노래 구간 일부분을 들려드리니 잘 맞춰 보세요"
+    },
+    
+    
+    {
+        "song" : ["strawberry moon","strawberrymoon","스트로베리문","스트로베리 문"],
+        "URL" : "https://youtu.be/sqgxcCjD04s",
+        "singer" : "아이유",
+        "length" : 219
+    },
+    {
+        "song" : ["어푸", "ah puh","ahpuh"],
+        "URL" : "https://youtu.be/7n9D8ZeOQv0",
+        "singer" : "아이유",
+        "length" : 200
+    },
+    {
+        "song" : ["mysea", "my sea", "아이와 나의 바다","아이와나의바다"],
+        "URL" : "https://youtu.be/TqIAndOnd74",
+        "singer" : "아이유",
+        "length" : 316
+    },
+    {
+        "song" : ["coin","코인"],
+        "URL" : "https://youtu.be/86BST8NIpNM",
+        "singer" : "아이유",
+        "length" : 197
+    },
+    {
+        "song" : ["라일락", "lilac"],
+        "URL" : "https://youtu.be/v7bnOxV4jAc",
+        "singer" : "아이유",
+        "length" : 279
+    },
+    {
+        "song" : ["celebrity", "셀러브리티"],
+        "URL" : "https://youtu.be/0-q1KafFCLU",
+        "singer" : "아이유",
+        "length" : 198
+    },
+    {
+        "song" : ["intotheiland", "into the iland", "인투더아일랜드"],
+        "URL" : "https://youtu.be/QYNwbZHmh8g",
+        "singer" : "아이유",
+        "length" :218
+    },
+    {
+        "song" : ["에잇","eight"],
+        "URL" : "https://youtu.be/TgOu00Mf3kI",
+        "singer" : "아이유",
+        "length" : 221
+    },
+    {
+        "song" : ["마음을드려요","마음을 드려요","give you my heart","giveyoumyheart"],
+        "URL" : "https://youtu.be/euI-C1YONaU",
+        "singer" : "아이유",
+        "length" : 280
+    },
+    {
+        "song" : ["시간의 바깥", "시간의바깥","above the time", "abovethetime"],
+        "URL" : "https://youtu.be/R3Fwdnij49o",
+        "singer" : "아이유",
+        "length" : 315
+    },
+    {
+        "song" : ["블루밍", "blueming"],
+        "URL" : "https://youtu.be/D1PvIWdJ8xo",
+        "singer" : "아이유",
+        "length" : 221
+    },
+    {
+        "song" : ["러브포엠", "러브 포엠","lovepoem","love poem"],
+        "URL" : "https://youtu.be/iOKRYIMhaDk",
+        "singer" : "아이유",
+        "length" : 258
+    },
+    {
+        "song" : ["삐삐", "bbibbi"],
+        "URL" : "https://youtu.be/nM0xDI5R50E",
+        "singer" : "아이유",
+        "length" : 208
+    },
+    {
+        "song" : ["잠못드는밤비는내리고", "잠 못 드는 밤 비는 내리고"],
+        "URL" : "https://youtu.be/m7mvpe1fVa4",
+        "singer" : "아이유",
+        "length" : 280
+    },
+    {
+        "song" : ["가을아침", "가을 아침","autumnmorning"],
+        "URL" : "https://youtu.be/ZDoH5dQ58ps",
+        "singer" : "아이유",
+        "length" : 218
+    },
+    {
+        "song" : ["이름에게", "dearname", "dear name"],
+        "URL" : "https://youtu.be/8zsYZFvKniw",
+        "singer" : "아이유",
+        "length" : 303
+    },
+    {
+        "song" : ["팔레트","palette"],
+        "URL" : "https://youtu.be/d9IxdwEFk1c",
+        "singer" : "아이유",
+        "length" : 218
+    },
+    {
+        "song" : ["사랑이잘", "사랑이 잘"],
+        "URL" : "https://youtu.be/dMn509ddAkc",
+        "singer" : "아이유",
+        "length" : 196
+    },
+    {
+        "song" : ["밤편지", "through the night"],
+        "URL" : "https://youtu.be/BzYnNdJhZQw",
+        "singer" : "아이유",
+        "length" : 282
+    },
+    {
+        "song" : ["무릎","knees"],
+        "URL" : "https://youtu.be/SfeaTW4bcAw",
+        "singer" : "아이유",
+        "length" : 282
+    },
+    {
+        "song" : ["스물셋", "twentythree"],
+        "URL" : "https://youtu.be/GXNHaLIhyMY",
+        "singer" : "아이유",
+        "length" : 194
+    },
+    {
+        "song" : ["레옹", "leon"],
+        "URL" : "https://youtu.be/df74im7PVCE",
+        "singer" : "아이유",
+        "length" : 218
+    },
+    {
+        "song" : ["마음", "heart"],
+        "URL" : "https://youtu.be/he2C4lx63M0",
+        "singer" : "아이유",
+        "length" : 166
+    },
+    {
+        "song" : ["소격동"],
+        "URL" : "https://youtu.be/EgUxD-3lCzU",
+        "singer" : "아이유",
+        "length" : 232
+    },
+    {
+        "song" : ["애타는마음"],
+        "URL" : "https://youtu.be/uzbqvZj4BGY",
+        "singer" : "아이유",
+        "length" : 213
+    },
+    {
+        "song" : ["너의의미", "너의 의미", "meaning of you", "meaningofyou"],
+        "URL" : "https://youtu.be/LajvR3lH1cg",
+        "singer" : "아이유",
+        "length" : 195
+    },
+    {
+        "song" : ["나의옛날이야기", "나의 옛날 이야기", "myoldstory", "my old story"],
+        "URL" : "https://youtu.be/2XBrycTHq4Y",
+        "singer" : "아이유",
+        "length" : 213
+    },
+    {
+        "song" : ["봄사랑벚꽃말고","봄 사랑 벚꽃 말고"],
+        "URL" : "https://youtu.be/ouR4nn1G9r4",
+        "singer" : "아이유",
+        "length" : 204
+    },
+    {
+        "song" : ["금요일에만나요","금요일에 만나요"],
+        "URL" : "https://youtu.be/xKZ3U8viuIU",
+        "singer" : "아이유",
+        "length" : 217
+    },
+    {
+        "song" : ["분홍신","theredshoes","the red shoes"],
+        "URL" : "https://youtu.be/C-Mxyvv0IDY",
+        "singer" : "아이유",
+        "length" : 254
+    },
+    {
+        "song" : ["달빛바다","seaofmoonlight","sea of moonlight"],
+        "URL" : "https://youtu.be/VuclHA-MP7U",
+        "singer" : "아이유",
+        "length" : 209
+    },
+    {
+        "song" : ["하루끝","하루 끝", "everyendoftheday"],
+        "URL" : "https://youtu.be/gJtNx3P02Z4",
+        "singer" : "아이유",
+        "length" :243
+    },
+    {
+        "song" : ["너랑나","너랑 나"],
+        "URL" : "https://youtu.be/rsvKskQcFD4",
+        "singer" : "아이유",
+        "length" : 239
+    },
+    {
+        "song" : ["얼음꽃"],
+        "URL" : "https://youtu.be/X9xPDB4v11A",
+        "singer" : "아이유",
+        "length" : 214
+    },
+    {
+        "song" : ["내손을잡아", "내 손을 잡아","holdmyhand"],
+        "URL" : "https://youtu.be/yx0IeGXe_Uw",
+        "singer" : "아이유",
+        "length" : 194
+    },
+    {
+        "song" : ["나만몰랐던이야기","나만 몰랐던 이야기"],
+        "URL" : "https://youtu.be/6eGxkWoObCQ",
+        "singer" : "아이유",
+        "length" : 202
+    },
+    {
+        "song" : ["someday"],
+        "URL" : "https://youtu.be/cJU6_8SRdM8",
+        "singer" : "아이유",
+        "length" :216
+    },
+    {
+        "song" : ["미리메리크리스마스", "미리 메리 크리스마스"],
+        "URL" : "https://youtu.be/w14rSMl35ro",
+        "singer" : "아이유",
+        "length" : 270
+    },
+    {
+        "song" : ["좋은날", "좋은 날"],
+        "URL" : "https://youtu.be/rZHC1zMiWiU",
+        "singer" : "아이유",
+        "length" :235
+    },
+    {
+        "song" : ["그대네요"],
+        "URL" : "https://youtu.be/e2-CY2VQyFc",
+        "singer" : "아이유",
+        "length" :274
+    },
+    {
+        "song" : ["raindrop", "rain drop"],
+        "URL" : "https://youtu.be/EQzqq0LNlto",
+        "singer" : "아이유",
+        "length" : 227
+    },
+    {
+        "song" : ["잔소리","nitpicking"],
+        "URL" : "https://youtu.be/bzdsqPOJK_I",
+        "singer" : "아이유",
+        "length" :213
+    },
+    {
+        "song" : ["마쉬멜로우"],
+        "URL" : "https://youtu.be/XfvR4QJVVhU",
+        "singer" : "아이유",
+        "length" : 194
+    },
+    {
+        "song" : ["boo"],
+        "URL" : "https://youtu.be/_Xhf7HQwy7U",
+        "singer" : "아이유",
+        "length" : 206
+    },
+    {
+        "song" : ["미아","lostchild","lost child"],
+        "URL" : "https://youtu.be/G6GczDUM270",
+        "singer" : "아이유",
+        "length" : 224
+    }
+    
+]
