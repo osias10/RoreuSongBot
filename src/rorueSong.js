@@ -23,12 +23,16 @@ client.on('ready', async() => {
 client.on('message', async msg =>{
     let content = msg.content;
     console.log(content);
+    matchsong.answercheck(msg);
     if (!content.startsWith(commandLetter)) {
         return;
     }
     const command = content.trim().substring(1);
     if (command.startsWith('p')||command.startsWith('s')){
         musicutils.music(msg);
+    }
+    else if (command.startsWith('노래맞추기')){
+        matchsong.matchmusic(msg);
     }
 
 });
