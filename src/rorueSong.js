@@ -6,6 +6,7 @@ const matchsong = require('./utils/matchsong');
 const {
     DISCORD_KEY
   } = require('./../key.json');
+const { match } = require('assert');
 
 
 
@@ -39,6 +40,9 @@ client.on('message', async msg =>{
     else if (command.startsWith('노래맞추기')){
         matchsong.matchmusic(msg);
         return;
+    }
+    else if (command==('참가 노래맞추기')){
+        matchsong.participate(msg);
     }
     content=undefined;
 

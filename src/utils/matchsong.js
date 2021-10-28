@@ -16,6 +16,53 @@ const { joinVoiceChannel,
 } = require('@discordjs/voice');
 
 const matchqueue = new Map();
+const participant = new Map();
+
+async function participate(msg){
+  //console.log(msg.author);
+  const partqueue = participant.get(msg.guild.id);
+  if (!partqueue){
+    const partConstructor = {
+      txtChannel: msg.channel,
+      
+      participants:[]
+    }
+
+    participant.set(msg.guild.id, partConstructor);
+
+    partConstructor.participants.push(msg.author);
+    
+  }
+  else{
+    let parti = participant.get(msg.guild.id).participants.find((item,idx) =>{
+      return item.id == msg.author.id;
+    });
+    if (parti == undefined){
+      participant.get(msg.guild.id).participants.push(msg.author);
+    }
+  }
+  let playerList = participant.get(msg.guild.id).participants;
+  let nowPlayer = "참여자 목록\n";
+
+  for (let i =0; i<playerList.length; i++){
+    nowPlayer+=`<@${playerList[i].id}>, `;
+  }
+  //nowPlayer+="```"
+  
+  return msg.channel.send(nowPlayer);
+
+}
+/*
+User {
+  id: '00000000',
+  bot: false,
+  system: false,
+  flags: UserFlags { bitfield: 0 },
+  username: 'name',
+  discriminator: '0000',
+  avatar: null
+}
+*/
 
 async function matchmusic(msg){
     const serverQueue = matchqueue.get(msg.guild.id);
@@ -38,6 +85,9 @@ async function matchmusic(msg){
       
       execute(msg,serverQueue,iu);
       
+    }
+    else if (commandList[2] == 'stop'){
+      stop(msg,matchqueue);
     }
     
     
@@ -84,6 +134,7 @@ async function execute(msg,serverQueue,singer){
                     playing: true,
                     player: player
                     
+                    
                 };
                 matchqueue.set(msg.guild.id, queueConstructor);
  
@@ -106,9 +157,7 @@ async function execute(msg,serverQueue,singer){
                 }
                 */
 
-                
                 queueConstructor.songs.push(songKind);
- 
                 try{
                     let connection = await joinVoiceChannel({
                       channelId: msg.member.voice.channel.id,
@@ -230,10 +279,28 @@ function qplay(guild, song){
 
 function answercheck(msg){
   if(matchqueue.has(msg.guild.id)){
-    if (matchqueue.get(msg.guild.id).txtChannel == msg.channel){
+    if(!participant.has(msg.guild.id) && matchqueue.get(msg.guild.id).txtChannel.id == msg.channel.id){
+      return msg.channel.send("[*참가 노래맞추기]  명령어로 참가신청을 먼저 해주세요");
+      
+    }
+    else if(matchqueue.get(msg.guild.id).txtChannel.id != msg.channel.id){
+      return;
+    }
+    let parti = participant.get(msg.guild.id).participants.find((item,idx) =>{
+      return item.id == msg.author.id;
+    });
+
+    if (matchqueue.get(msg.guild.id).txtChannel == msg.channel && parti !=undefined){
       let answer = matchqueue.get(msg.guild.id).songs[0][0].song.find((item) =>{
         return item == msg.content.replace(/(\s*)/g, "");
       });
+
+      const command = msg.content.trim().substring(1);
+      const commandList = command.trim().split(/ +/);
+      if (commandList[0] == '노래맞추기' &&commandList[1] == 'stop'){
+        stop(msg,matchqueue);
+      }
+
       if(answer!=undefined){
         answer="바뀜";
         skip(msg,matchqueue.get(msg.guild.id));
@@ -243,7 +310,7 @@ function answercheck(msg){
     }
     
   }
-  else return msg.channel.send("진행x");
+  else return 
 
 }
 
@@ -260,7 +327,19 @@ function skip(msg, serverQueue){
 }
 
 
+function stop ( msg,mq){
+  if(!msg.member.voice.channel){
+    return msg.channel.send("음성채널에 들어가주세요!");
+  }
+  const q = mq.get(msg.guild.id);
+  q.songs[0] = [];
+  q.connection.destroy();
+  mq.delete(msg.guild.id);
+
+}
+
   module.exports = {
     matchmusic,
-    answercheck
+    answercheck,
+    participate
   }
