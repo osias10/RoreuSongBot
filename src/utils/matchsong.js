@@ -230,12 +230,34 @@ function qplay(guild, song){
 
 function answercheck(msg){
   if(matchqueue.has(msg.guild.id)){
-    return msg.channel.send("게임이 진행중입니다");
+    if (matchqueue.get(msg.guild.id).txtChannel == msg.channel){
+      let answer = matchqueue.get(msg.guild.id).songs[0][0].song.find((item) =>{
+        return item == msg.content.replace(/(\s*)/g, "");
+      });
+      if(answer!=undefined){
+        answer="바뀜";
+        skip(msg,matchqueue.get(msg.guild.id));
+        return msg.channel.send("정답입니다");
+      }
+      //return msg.channel.send("게임이 진행중입니다");
+    }
+    
   }
   else return msg.channel.send("진행x");
 
 }
 
+function skip(msg, serverQueue){
+  if (!msg.member.voice.channel){
+    return msg.channel.send("음성채널에 들어가주세요!");
+
+  }
+  if (!serverQueue){
+    return msg.channel.send("넘어갈 곡이 없습니다.");
+  }
+  serverQueue.player.stop();
+  //serverQueue.connection.dispatcher.end();
+}
 
 
   module.exports = {

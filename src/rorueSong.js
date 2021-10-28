@@ -23,17 +23,24 @@ client.on('ready', async() => {
 client.on('message', async msg =>{
     let content = msg.content;
     console.log(content);
-    matchsong.answercheck(msg);
+    if (content&& msg.author.bot!= true){
+        matchsong.answercheck(msg);
+        console.log(msg.content);
+
+    }
     if (!content.startsWith(commandLetter)) {
         return;
     }
     const command = content.trim().substring(1);
     if (command.startsWith('p')||command.startsWith('s')){
         musicutils.music(msg);
+        return;
     }
     else if (command.startsWith('노래맞추기')){
         matchsong.matchmusic(msg);
+        return;
     }
+    content=undefined;
 
 });
 
