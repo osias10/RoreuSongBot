@@ -29,7 +29,7 @@ async function participate(msg){
     }
 
     participant.set(msg.guild.id, partConstructor);
-
+    msg.author.point=0;
     partConstructor.participants.push(msg.author);
     
   }
@@ -38,6 +38,7 @@ async function participate(msg){
       return item.id == msg.author.id;
     });
     if (parti == undefined){
+      msg.author.point=0;
       participant.get(msg.guild.id).participants.push(msg.author);
     }
   }
@@ -303,8 +304,17 @@ function answercheck(msg){
 
       if(answer!=undefined){
         answer="바뀜";
+        msg.channel.send("정답입니다");
+        parti.point+=1;
         skip(msg,matchqueue.get(msg.guild.id));
-        return msg.channel.send("정답입니다");
+        let printPoint="[점수판]";
+        let score = participant.get(msg.guild.id).participants;
+        for (let i =0; i<score.length; i++){
+          printPoint+=`\n<@${score[i].id}>: ${score[i].point}p`;
+        }
+        //console.log(printPoint);
+        msg.channel.send(printPoint);
+        return
       }
       //return msg.channel.send("게임이 진행중입니다");
     }
@@ -335,6 +345,8 @@ function stop ( msg,mq){
   q.songs[0] = [];
   q.connection.destroy();
   mq.delete(msg.guild.id);
+  participant.get(msg.guild.id).participants =[];
+
 
 }
 
