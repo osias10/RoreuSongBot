@@ -87,7 +87,7 @@ async function matchmusic(msg){
       execute(msg,serverQueue,iu);
       
     }
-    else if (commandList[2] == 'stop'){
+    else if (commandList[1] == 'stop'){
       /*
       let scores = scoreList(participant.get(msg.guild.id).participants);
       let scoreResult ="[게임 결과]\n";
@@ -99,6 +99,11 @@ async function matchmusic(msg){
       */
       stop(msg,matchqueue);
 
+    }
+    else if (commandList[1] == 'test'){
+      let test = await fs.readFile('./src/utils/files/songlist/test.json');
+      
+      execute(msg,serverQueue,test);
     }
     
     
@@ -238,6 +243,7 @@ function wqplay(guild, song){
 
 
   //serverQueue.txtChannel.send(`Now Playing ${serverQueue.songs[0].url}`);
+  console.log(`Now Playing ${serverQueue.songs[0].url}`);
 
 }
 
@@ -246,6 +252,7 @@ function qplay(guild, song){
   const serverQueue = matchqueue.get(guild.id);
   if(!song){
     serverQueue.connection.destroy();
+
     matchqueue.delete(guild.id);
     return;
   }
@@ -284,7 +291,7 @@ function qplay(guild, song){
 
 
 
-  serverQueue.txtChannel.send(`Now Playing ${serverQueue.songs[0][0].URL}`);
+  //serverQueue.txtChannel.send(`Now Playing ${serverQueue.songs[0][0].URL}`);
 
 }
 
@@ -311,6 +318,7 @@ function answercheck(msg){
       if (commandList[0] == '노래맞추기' &&commandList[1] == 'stop'){
         stop(msg,matchqueue);
       }
+      console.log(matchqueue);
 
       if(answer!=undefined){
         answer="바뀜";
@@ -352,7 +360,10 @@ function stop ( msg,mq){
     return msg.channel.send("음성채널에 들어가주세요!");
   }
   
-  const q = mq.get(msg.guild.id);
+  //const q = mq.get(msg.guild.id);
+  let q=matchqueue.get(msg.guild.id);
+  console.log(matchqueue);
+  console.log(q);
   q.songs[0] = [];
   q.connection.destroy();
   mq.delete(msg.guild.id);

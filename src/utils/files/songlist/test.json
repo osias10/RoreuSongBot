@@ -1,0 +1,20 @@
+[
+    {
+        "Title": "아이유 노래맞추기",
+        "Description" : "로르봇의 아이유 노래 맞추기 입니다. 노래 구간 일부분을 들려드리니 잘 맞춰 보세요"
+    },
+    
+    
+    {
+        "song" : ["strawberry moon","strawberrymoon","스트로베리문","스트로베리 문"],
+        "URL" : "https://youtu.be/sqgxcCjD04s",
+        "singer" : "아이유",
+        "length" : 219
+    },
+    {
+        "song" : ["어푸", "ah puh","ahpuh"],
+        "URL" : "https://youtu.be/7n9D8ZeOQv0",
+        "singer" : "아이유",
+        "length" : 200
+    }
+]
