@@ -88,7 +88,17 @@ async function matchmusic(msg){
       
     }
     else if (commandList[2] == 'stop'){
+      /*
+      let scores = scoreList(participant.get(msg.guild.id).participants);
+      let scoreResult ="[게임 결과]\n";
+      for (let i ; i<scores.length; i++){
+        scoreResult+=`${i+1}등: <@${scores[i].id}> - ${socres[i].point}점`;
+      }
+
+      msg.channel.send(scoreResult);
+      */
       stop(msg,matchqueue);
+
     }
     
     
@@ -341,13 +351,35 @@ function stop ( msg,mq){
   if(!msg.member.voice.channel){
     return msg.channel.send("음성채널에 들어가주세요!");
   }
+  
   const q = mq.get(msg.guild.id);
   q.songs[0] = [];
   q.connection.destroy();
   mq.delete(msg.guild.id);
+  
+  let scores = scoreList(participant.get(msg.guild.id).participants);
+  let scoreResult ="[게임 결과]\n";
+  for (let i=0 ; i<scores.length; i++){
+    scoreResult+=`${i+1}등: <@${scores[i].id}>  (${scores[i].point}점)`;
+  }
+
+  msg.channel.send(scoreResult);
+  
   participant.get(msg.guild.id).participants =[];
 
 
+}
+
+function scoreList(scores){
+  scores.sort(function(a,b) {
+
+    return parseFloat(b.point) - parseFloat(a.point);
+  
+  });
+  
+  
+  
+  return scores;
 }
 
   module.exports = {
