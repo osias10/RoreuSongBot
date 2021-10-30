@@ -315,14 +315,15 @@ function answercheck(msg){
 
       const command = msg.content.trim().substring(1);
       const commandList = command.trim().split(/ +/);
+      /*
       if (commandList[0] == '노래맞추기' &&commandList[1] == 'stop'){
         stop(msg,matchqueue);
       }
       console.log(matchqueue);
-
+      */
       if(answer!=undefined){
         answer="바뀜";
-        msg.channel.send("정답입니다");
+        msg.channel.send(`<@${parti.id}> 정답입니다`);
         parti.point+=1;
         skip(msg,matchqueue.get(msg.guild.id));
         let printPoint="[점수판]";
@@ -371,7 +372,7 @@ function stop ( msg,mq){
   let scores = scoreList(participant.get(msg.guild.id).participants);
   let scoreResult ="[게임 결과]\n";
   for (let i=0 ; i<scores.length; i++){
-    scoreResult+=`${i+1}등: <@${scores[i].id}>  (${scores[i].point}점)`;
+    scoreResult+=`\n${i+1}등: <@${scores[i].id}>  (${scores[i].point}점)`;
   }
 
   msg.channel.send(scoreResult);
