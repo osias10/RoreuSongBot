@@ -267,7 +267,6 @@ function qplay(msg,guild, song){
   }else{
     startUrl=song.URL;
   }
-  startUrl='https://youtu.be/sqgxcCjD04s?t=50';
   console.log(startUrl);
   const stream = ytdlexec(startUrl, {
     o: '-',
