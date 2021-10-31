@@ -184,7 +184,7 @@ async function execute(msg,serverQueue,singer){
 
                     //console.log(queueConstructor);
                     //console.log(queueConstructor.songs[0]);
-                    qplay(msg.guild, queueConstructor.songs[0][0]);
+                    qplay(msg,msg.guild, queueConstructor.songs[0][0]);
                 }catch (err){
                     console.error(err);
                     matchqueue.delete(msg.guild.id);
@@ -236,7 +236,7 @@ function wqplay(guild, song){
     console.log("곡 shift");
     serverQueue.songs[0].shift();
 
-    qplay(guild, serverQueue.songs[0][0]);
+    qplay(msg,guild, serverQueue.songs[0][0]);
   });
   
 
@@ -247,16 +247,29 @@ function wqplay(guild, song){
 
 }
 
-function qplay(guild, song){
-
+function qplay(msg,guild, song){
+  
   const serverQueue = matchqueue.get(guild.id);
   if(!song){
+    /*
     serverQueue.connection.destroy();
 
     matchqueue.delete(guild.id);
+    */
+    stop(msg,matchqueue);
     return;
   }
-  const stream = ytdlexec(song.URL, {
+  let startUrl = song.URL;
+  if(song.length){
+
+
+    startUrl = song.URL+'?t='+getRandom(0,song.length-60);
+  }else{
+    startUrl=song.URL;
+  }
+  startUrl='https://youtu.be/sqgxcCjD04s?t=50';
+  console.log(startUrl);
+  const stream = ytdlexec(startUrl, {
     o: '-',
     q: '',
     f: 'bestaudio[ext=webm+acodec=opus+asr=48000]/bestaudio',
@@ -285,7 +298,7 @@ function qplay(guild, song){
     console.log("곡 shift");
     serverQueue.songs[0].shift();
 
-    qplay(guild, serverQueue.songs[0][0]);
+    qplay(msg,guild, serverQueue.songs[0][0]);
   });
   
 
@@ -393,6 +406,15 @@ function scoreList(scores){
   
   return scores;
 }
+
+
+function getRandom(min, max) {
+  return Math.floor((Math.random() * (max - min + 1)) + min);
+}
+
+
+
+
 
   module.exports = {
     matchmusic,
