@@ -30,6 +30,7 @@ async function participate(msg){
 
     participant.set(msg.guild.id, partConstructor);
     msg.author.point=0;
+    msg.author.skip=false;
     partConstructor.participants.push(msg.author);
     
   }
@@ -39,6 +40,7 @@ async function participate(msg){
     });
     if (parti == undefined){
       msg.author.point=0;
+      msg.author.skip=false;
       participant.get(msg.guild.id).participants.push(msg.author);
     }
   }
@@ -346,6 +348,26 @@ function answercheck(msg){
         //console.log(printPoint);
         msg.channel.send(printPoint);
         return
+      }
+      else if(msg.content == '스킵' || msg.content== 'skip'){
+        parti.skip = true;
+        let skipq = participant.get(msg.guild.id).participants.filter((item,idx) =>{
+          return item.skip == true
+        });
+        //console.log(skipq);
+        let skiped = participant.get(msg.guild.id).participants.length
+        printSkip = `문제 스킵 투표 ${skipq.length}/${skiped - 1}`;
+        msg.channel.send(printSkip);
+        
+        if (skipq.length >= skiped-1){
+          msg.channel.send('문제를 건너뜁니다.');
+          for (let j=0; j<skipq.length; j++){
+            skipq[j].skip = false;
+          }
+          skip(msg,matchqueue.get(msg.guild.id));
+        }
+        
+
       }
       //return msg.channel.send("게임이 진행중입니다");
     }
