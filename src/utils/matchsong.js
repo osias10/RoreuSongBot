@@ -17,6 +17,8 @@ const { joinVoiceChannel,
 
 const matchqueue = new Map();
 const participant = new Map();
+let sendingHint;
+const hintTime = 30000;
 
 async function participate(msg){
   //console.log(msg.author);
@@ -300,6 +302,13 @@ function qplay(msg,guild, song){
   player.on('error', error => {
     console.error(error);
   });
+    
+  if(serverQueue.songs[0][0].hints){
+    sendingHint = setTimeout(sendHint,hintTime,msg,serverQueue.songs[0][0].hints);
+  }else{
+    sendingHint = setTimeout(sendHint,hintTime,msg,"힌트 없음");
+  }
+
   /*
   serverQueue.connection.on('finish', () => {
     console.log("곡 shift");
@@ -310,6 +319,7 @@ function qplay(msg,guild, song){
 */
   player.once(AudioPlayerStatus.Idle, () => {
     console.log("곡 shift");
+    clearTimeout(sendingHint);
     serverQueue.songs[0].shift();
 
     qplay(msg,guild, serverQueue.songs[0][0]);
@@ -391,6 +401,7 @@ function answercheck(msg){
 }
 
 function skip(msg, serverQueue){
+  
   if (!msg.member.voice.channel){
     return msg.channel.send("음성채널에 들어가주세요!");
 
@@ -399,11 +410,13 @@ function skip(msg, serverQueue){
     return msg.channel.send("넘어갈 곡이 없습니다.");
   }
   serverQueue.player.stop();
+  clearTimeout(sendingHint);
   //serverQueue.connection.dispatcher.end();
 }
 
 
 function stop ( msg,mq){
+  clearTimeout(sendingHint); //힌트 전송 예약 취소
   if(!msg.member.voice.channel){
     return msg.channel.send("음성채널에 들어가주세요!");
   }
@@ -446,6 +459,11 @@ function getRandom(min, max) {
   return Math.floor((Math.random() * (max - min + 1)) + min);
 }
 
+
+//힌트 전송
+function sendHint(msg,hint){
+  msg.channel.send(`힌트: ${hint}`);
+}
 
 
 
