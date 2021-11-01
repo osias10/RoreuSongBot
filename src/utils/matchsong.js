@@ -337,7 +337,7 @@ function answercheck(msg){
       */
       if(answer!=undefined){
         answer="바뀜";
-        msg.channel.send(`<@${parti.id}> 정답입니다`);
+        msg.channel.send(`<@${parti.id}> 정답입니다\n 정답: ${matchqueue.get(msg.guild.id).songs[0][0].song[0]}`);
         parti.point+=1;
         skip(msg,matchqueue.get(msg.guild.id));
         let printPoint="[점수판]";
