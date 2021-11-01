@@ -66,6 +66,19 @@ User {
   avatar: null
 }
 */
+async function cancelParti(msg){
+  const partqueue = participant.get(msg.guild.id);
+  let result="";
+  if(partqueue){
+    const idx = partqueue.participants.findIndex(function(item) {return item.id === msg.author.id}) // findIndex = find + indexOf 
+  
+    if (idx > -1) {
+      result+= `<@${msg.author.id}>`;
+      partqueue.participants.splice(idx, 1);
+    }
+    return msg.channel.send(result+"  참가 취소 완료");
+  }
+}
 
 async function matchmusic(msg){
     const serverQueue = matchqueue.get(msg.guild.id);
@@ -440,5 +453,6 @@ function getRandom(min, max) {
   module.exports = {
     matchmusic,
     answercheck,
-    participate
+    participate,
+    cancelParti
   }

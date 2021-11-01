@@ -43,6 +43,8 @@ client.on('message', async msg =>{
     }
     else if (command==('참가 노래맞추기')){
         matchsong.participate(msg);
+    }else if (command == '참가취소 노래맞추기'){
+        matchsong.cancelParti(msg);
     }
     content=undefined;
 
